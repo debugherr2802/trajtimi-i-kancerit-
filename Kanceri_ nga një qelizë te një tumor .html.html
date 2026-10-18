@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="sq"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kanceri: nga një qelizë te një tumor</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#f4f1ff;--bg2:#e0f6ff;--ink:#1b1450;--mut:#4d4789;--card:rgba(255,255,255,.78);--bd:rgba(110,80,220,.25);--acc:#0aa896;--acc2:#e0489a;--btn:#1b1450;--btnt:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0a0f3a;--bg2:#3a1a7a;--ink:#f1eeff;--mut:#cfc9ff;--card:rgba(26,22,80,.72);--bd:rgba(255,255,255,.2);--acc:#5ff2e0;--acc2:#ff7ac8;--btn:#5ff2e0;--btnt:#150f45}}
+:root[data-theme="dark"]{--bg1:#0a0f3a;--bg2:#3a1a7a;--ink:#f1eeff;--mut:#cfc9ff;--card:rgba(26,22,80,.72);--bd:rgba(255,255,255,.2);--acc:#5ff2e0;--acc2:#ff7ac8;--btn:#5ff2e0;--btnt:#150f45}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav{position:sticky;top:0;z-index:20;display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center;padding:.55rem .8rem;backdrop-filter:blur(10px);background:var(--card);border-bottom:1px solid var(--bd)}
+.nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.82rem;padding:.35rem .8rem;border-radius:2rem}
+.nav a:hover{background:var(--bd)}
+section{max-width:1100px;margin:0 auto;padding:3.2rem 1.2rem;opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+section.in{opacity:1;transform:none}
+#hero{position:relative;max-width:none;min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:1;transform:none;overflow:hidden;padding:2rem 1.2rem}
+#hc{position:absolute;inset:0;width:100%;height:100%}
+.hin{position:relative;z-index:1;pointer-events:none;max-width:760px}
+.hin a,.hin button{pointer-events:auto}
+h1{font-size:clamp(2rem,6.5vw,4.2rem);line-height:1.05;margin:.3rem 0;font-weight:800;background:linear-gradient(90deg,var(--acc),var(--ink) 50%,var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(1.5rem,4vw,2.3rem);margin:.2rem 0 .4rem;font-weight:800;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);line-height:1.65;max-width:720px;margin:.3rem auto 1.2rem}
+.tag{display:inline-block;padding:.3rem .9rem;border-radius:2rem;background:var(--card);border:1px solid var(--bd);font-weight:600;font-size:.8rem}
+.btn{font:600 .9rem Poppins,sans-serif;padding:.65rem 1.3rem;border-radius:2rem;border:0;background:var(--btn);color:var(--btnt);cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px) scale(1.03)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:1.4rem;backdrop-filter:blur(8px)}
+.lab{display:grid;grid-template-columns:1.7fr 1fr;gap:1rem}
+@media(max-width:860px){.lab{grid-template-columns:1fr}}
+.cv{padding:.6rem;position:relative}
+canvas.fl{width:100%;display:block;border-radius:1rem;cursor:pointer}
+#cnt{position:absolute;right:1.2rem;top:1.2rem;font-weight:800;padding:.3rem .8rem;border-radius:2rem;background:var(--card);border:1px solid var(--bd);display:none}
+.side{padding:1rem;display:flex;flex-direction:column;gap:.8rem}
+.side h3{margin:0;font-size:.95rem}
+#genes{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+#genes li{display:flex;align-items:center;gap:.6rem;font-size:.82rem;font-weight:600;padding:.35rem .6rem;border-radius:.8rem;border:1px solid var(--bd);cursor:pointer}
+#genes i{width:.9rem;height:.9rem;border-radius:50%;background:#2fd9a6;box-shadow:0 0 10px #2fd9a6;flex:none;transition:.4s}
+#genes li.bad i{background:#ff4f8b;box-shadow:0 0 12px #ff4f8b}
+#genes li.bad{border-color:#ff4f8b88}
+.causes{display:flex;flex-wrap:wrap;gap:.4rem}
+.cb{font:600 .8rem Poppins,sans-serif;padding:.5rem .8rem;border-radius:2rem;border:1px solid var(--bd);background:var(--card);color:var(--ink);cursor:pointer}
+.cb:hover{background:var(--acc2);color:#fff}
+#msg{min-height:4.6rem;padding:.8rem 1rem;border-radius:1rem;background:var(--bd);font-size:.88rem;line-height:1.5;font-weight:600}
+.row{display:flex;gap:.5rem;flex-wrap:wrap}
+.bar{height:.6rem;border-radius:1rem;background:var(--bd);overflow:hidden}
+.bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.mathbox{padding:1.2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center}
+@media(max-width:760px){.mathbox{grid-template-columns:1fr}}
+input[type=range]{width:100%;accent-color:var(--acc2)}
+.big{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:800;color:var(--acc2)}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.fc{perspective:900px;height:200px;cursor:pointer}
+.fi{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.on .fi{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;border-radius:1.4rem;padding:1.1rem;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--card);border:1px solid var(--bd)}
+.ff i{font-style:normal;font-size:2.6rem}.ff b{margin-top:.4rem}.ff small{color:var(--mut);margin-top:.3rem}
+.fb{transform:rotateY(180deg);font-size:.88rem;line-height:1.5;background:linear-gradient(160deg,var(--card),var(--bd))}
+.qz{padding:1.4rem;max-width:760px;margin:0 auto;text-align:center}
+.qt{font-size:clamp(1.1rem,3vw,1.5rem);font-weight:800;margin:.8rem 0}
+.qa{display:flex;gap:.8rem;justify-content:center;margin:1rem 0}
+.qa .btn{min-width:7rem}
+#qf{min-height:5rem;line-height:1.55;font-weight:600}
+.ok{color:#14b887}.no{color:#ee3f7f}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.fk{padding:1.2rem;cursor:pointer}
+.fk i{font-style:normal;font-size:2.4rem}.fk h3{margin:.3rem 0}
+.fk p{display:none;margin:.4rem 0 0;line-height:1.55;font-size:.9rem;color:var(--mut)}
+.fk.on p{display:block}
+footer{text-align:center;padding:2rem 1rem 3rem;color:var(--mut);font-size:.85rem;line-height:1.7}
+footer a{color:var(--acc2);font-weight:600}
+.key,.how{background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--acc);border-radius:.9rem;padding:.8rem 1.1rem;margin:0 0 1rem;line-height:1.6;font-size:.95rem}.how span{display:inline-block;margin-right:.9rem}.lead{font-size:1.05rem}footer b{display:block;font-size:1.25rem;color:var(--ink)}.fk.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}.fk small{color:var(--acc2);font-weight:600}dl{display:grid;grid-template-columns:max-content 1fr;gap:.6rem 1.4rem;line-height:1.55}dt{font-weight:800;color:var(--acc2)}dd{margin:0;color:var(--mut)}@media(max-width:560px){dl{grid-template-columns:1fr}dd{margin-bottom:.5rem}}.opt{text-align:left;font-weight:600;background:var(--card);color:var(--ink);border:2px solid var(--bd);width:100%}.opt:hover{border-color:var(--acc)}.opt.ok{border-color:#14b887;background:rgba(20,184,135,.18)}.opt.no{border-color:#ee3f7f;background:rgba(238,63,127,.18)}
+.stp{padding:1.3rem}.stp h3{margin:.2rem 0;font-size:1.25rem}.stp p{line-height:1.65;margin:.5rem 0}.cb.dn{border-color:var(--acc);border-width:2px}.tip{display:none}.tip.on{display:block}.wb{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.2rem}.wb .cb.sel{background:var(--acc);color:var(--btnt);border-color:var(--acc)}.wb .cb.used{opacity:.3;pointer-events:none}.ms{padding:.9rem 1.1rem;margin:.5rem 0;line-height:1.9;cursor:pointer;border:2px solid var(--bd);border-radius:1rem;background:var(--card)}.ms:hover{border-color:var(--acc)}.ms u{display:inline-block;min-width:7.5rem;text-align:center;font-weight:800;border-bottom:3px dashed var(--acc2);text-decoration:none;color:var(--acc2)}.ms.ok{border-color:#14b887;background:rgba(20,184,135,.14);cursor:default}.ms.ok u{border-bottom:3px solid #14b887;color:#14b887}.ms.bad{animation:sk .35s}@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}.ms small{display:block;color:var(--mut);font-weight:600;line-height:1.5}
+.mc{height:92px;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:1rem;border:2px solid var(--bd);background:var(--card);font-weight:600;font-size:.78rem;line-height:1.3;cursor:pointer;padding:.4rem;color:var(--ink);font-family:inherit;transition:transform .2s}.mc:hover{border-color:var(--acc)}.mc.cl{font-size:1.7rem}.mc.ok{border-color:#14b887;background:rgba(20,184,135,.18);cursor:default}.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.6rem}.kb{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;margin:1rem 0}.kb .cb{min-width:2.3rem;padding:.45rem .5rem}.kb .cb:disabled{opacity:.45}.kb .cb.ok{background:#14b887;color:#fff}.kb .cb.no{background:#ee3f7f;color:#fff}.hw{font-size:clamp(1.4rem,5vw,2.2rem);font-weight:800;letter-spacing:.35rem;text-align:center;color:var(--acc2);min-height:3rem}.gs{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:700px){.gs{grid-template-columns:1fr}}
+html{-webkit-text-size-adjust:100%}body{overflow-x:hidden}section[id]{scroll-margin-top:3.4rem}.nav{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nav::-webkit-scrollbar{display:none}.nav a{white-space:nowrap;flex:none;transition:background .2s}.nav a.act{background:var(--acc);color:var(--btnt)}@media(min-width:1100px){.nav{justify-content:center}}.btn{min-height:44px}#up{display:none;position:fixed;z-index:30;right:max(1rem,env(safe-area-inset-right,0px));bottom:max(1rem,env(safe-area-inset-bottom,0px));width:46px;height:46px;min-height:0;padding:0;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.25);font-size:1.2rem}@media(max-width:600px){section{padding:2.2rem .95rem}#hero{padding:1.5rem .95rem;min-height:82vh}h1{font-size:2.1rem}.lead{font-size:.98rem}.key,.how{font-size:.9rem;padding:.7rem .9rem}.how span{display:block;margin:0 0 .25rem}.qz,.stp{padding:1rem}.qa{flex-wrap:wrap}.qa .btn{flex:1 1 42%;min-width:0}.fc{height:250px}.fb{font-size:.84rem;padding:.9rem}.hw{letter-spacing:.15rem}.kb .cb{min-width:2rem;padding:.4rem}.ms{padding:.8rem .9rem}.ms u{min-width:5.5rem}.side,.mathbox{padding:.9rem}.cb{padding:.5rem .7rem}#msg{min-height:5.5rem}footer{padding:1.5rem 1rem 2.5rem}}
+</style></head><body>
+<nav class="nav"><a href="#hero">Hyrje</a><a href="#lab">1 Mutacionet</a><a href="#math">2 Rritja</a><a href="#hall">3 Tiparet</a><a href="#benign">4 Tumoret</a><a href="#protect">5 Parandalimi</a><a href="#treat">6 Trajtimi</a><a href="#match">7 Termat</a><a href="#games">8 Aktivitete</a><a href="#quiz">9 Mit/Fakt</a><a href="#mcq">10 Pyetje</a><a href="#facts">11 Kërkimi</a><a href="#terms">12 Terma</a></nav>
+<section id="hero"><canvas id="hc"></canvas>
+<div class="hin"><span class="tag">Biologji · Klasa XII · Faqe interaktive</span>
+<h1>Biologjia e kancerit</h1>
+<p class="lead">Kanceri është sëmundje e gjenomit: mutacionet në gjene që kontrollojnë ciklin qelizor, riparimin e ADN-së dhe apoptozën çojnë në shumëzim të pakontrolluar të qelizave. Tema ndahet në 12 pjesë; secila ka një ide kryesore dhe një aktivitet interaktiv.</p><div class="key" style="text-align:left;margin:1rem 0 .6rem"><b>Objektivat e të nxënit.</b> Pas kësaj faqeje do të jesh në gjendje të: (1) shpjegosh si mutacionet çojnë në kancer, (2) llogarisësh rritjen eksponenciale të një tumori, (3) përshkruash tiparet dalluese të qelizave kanceroze, (4) dallosh tumoret beninj nga ata malinj, (5) vlerësosh faktorët e rrezikut dhe të parandalimit.</div><p class="lead" style="display:none"></p>
+<a href="#lab"><button class="btn">Nis eksplorimin ↓</button></a>
+<p class="lead" style="font-size:.85rem">Kliko mbi qelizat për të parë një animacion të shkurtër.</p></div></section>
+
+<section id="lab"><span class="tag">1 · Mutacionet</span><h2>Si shkaktojnë mutacionet kancerin</h2>
+<p class="lead" style="margin-left:0">Qeliza kontrollohet nga gjene që ruajnë ADN-në dhe rregullojnë ndarjen. Kancerogjenët i dëmtojnë ato. Kur dëmtohen 4 nga 6 gjenet mbrojtëse, ndarja del jashtë kontrollit.</p>
+<div class="key"><b>Ideja kryesore:</b> onkogjenet e aktivizuara tepër (“gazi”) dhe gjenet frenuese të çaktivizuara (“frenat”), si p53, e çojnë qelizën në ndarje pa kontroll. Shumica e mutacioneve fitohen gjatë jetës; vetëm rreth 5–10% e kancereve lidhen me mutacione të trashëguara.</div><div class="how"><b>Si luhet:</b> <span>① Zgjidh një shkak.</span> <span>② Shiko gjenet që bëhen rozë (të dëmtuara).</span> <span>③ Kur 4 gjene dëmtohen, qeliza bëhet tumor. Provo edhe “Riparo ADN-në”.</span></div><div class="lab"><div class="card cv"><canvas id="lc" class="fl"></canvas><div id="cnt"></div></div>
+<div class="card side"><h3>② Gjenet mbrojtëse: jeshile = të shëndetshme, rozë = të dëmtuara (kliko për shpjegim)</h3><ul id="genes"></ul>
+<div class="bar"><b id="dm"></b></div>
+<h3>① Zgjidh një shkak:</h3><div class="causes" id="causes"></div>
+<div class="row"><button class="btn" id="rp">🛠️ Riparo ADN-në</button><button class="btn" id="rs" style="background:var(--acc2);color:#fff">↺ Rifillo</button></div>
+<div id="msg"></div><p style="font-size:.8rem;color:var(--mut);margin:0">Modeli është i thjeshtuar: në realitet kanceri kërkon shumë mutacione të grumbulluara gjatë vitesh, jo disa çaste.</p></div></div></section>
+
+<section id="math"><span class="tag">2 · Rritja</span><h2>Rritja eksponenciale e tumorit</h2>
+<p class="lead" style="margin-left:0">Në modelin e thjeshtë, numri i qelizave pas n ndarjeve është N = 2ⁿ. Zhvendos shiritin për të parë numrin e qelizave dhe madhësinë e tumorit.</p>
+<div class="key"><b>Formula:</b> N = 2ⁿ. Pas 30 ndarjesh N ≈ 10⁹ qeliza ≈ 1 cm³ (rreth 1 g ind). Një tumor bëhet zakonisht i zbulueshëm në rreth 30 dyfishime, ndërsa ≈ 40 dyfishime japin ≈ 10¹² qeliza, ngarkesë që zakonisht rrezikon jetën.</div><div class="card mathbox"><div><label for="sl" style="font-weight:600">Numri i ndarjeve: <span id="nn" class="big">0</span></label>
+<input type="range" id="sl" min="0" max="40" value="0"><div class="chips" id="ch"></div>
+<div>Qeliza: <span class="big" id="cc">1</span></div><div style="margin:.5rem 0">Madhësia e përafërt: <b id="sz"></b></div>
+<p id="st" style="color:var(--mut);line-height:1.55;font-weight:600"></p>
+<p style="font-size:.8rem;color:var(--mut)">Shënim: në realitet një ndarje zgjat nga ditë deri në muaj, ndaj 30 ndarje mund të kërkojnë vite. Llogaritja merr afërsisht 1 miliard qeliza për 1 cm³.</p></div>
+<canvas id="mc" class="fl" style="cursor:default"></canvas></div></section>
+
+<section id="hall"><span class="tag">3 · Tiparet</span><h2>Gjashtë tipare dalluese të kancerit</h2>
+<p class="lead" style="margin-left:0">Kliko një kartë për të lexuar mekanizmin molekular të secilit tipar.</p><div class="key"><b>Ideja kryesore:</b> Hanahan dhe Weinberg (2000) përshkruan tiparet e përbashkëta të kancerit. Çdo kartë tregon mekanizmin përkatës.</div><div class="hg" id="hg"></div></section>
+
+<section id="benign"><span class="tag">4 · Tumoret</span><h2>Tumoret beninj dhe malinj</h2><p class="lead" style="margin-left:0">Jo çdo tumor është kancer. Për secilën thënie, zgjidh se cilit lloj i përket.</p><div class="key"><b>Ideja kryesore:</b> tumori beninj mbetet i kufizuar, ndërsa tumori malinj (kanceri) pushton indet përreth dhe mund të përhapet. Edhe një tumor beninj mund të ketë nevojë për trajtim nëse shtyp organe të rëndësishme.</div><div class="card qz"><div id="bp" style="font-weight:600;color:var(--mut)"></div><div class="qt" id="bq"></div><div class="qa" id="bb"><button class="btn" data-a="0" style="background:#14b887;color:#fff">🟢 Beninj</button><button class="btn" data-a="1" style="background:#ee3f7f;color:#fff">🔴 Malinj</button></div><div id="bf" style="min-height:5rem;line-height:1.55;font-weight:600"></div><button class="btn" id="bn" style="display:none">Tjetra →</button></div></section>
+
+<section id="protect"><span class="tag">5 · Parandalimi</span><h2>Faktorët e rrezikut dhe parandalimi</h2><p class="lead" style="margin-left:0">Kliko çdo masë mbrojtëse për ta aktivizuar dhe për të lexuar mekanizmin. Shiko si rritet niveli i mbrojtjes.</p><div class="key"><b>Ideja kryesore:</b> pjesa më e madhe e rrezikut varet nga zakonet dhe mjedisi, jo vetëm nga gjenet. Sipas OBSH, 30–50% e kancereve mund të parandalohen.</div><div class="card" style="padding:1.2rem"><div class="hg" id="pg"></div><div class="bar" style="margin:1.2rem 0 .8rem"><b id="pm"></b></div><div id="pt" style="font-weight:600;line-height:1.55"></div></div></section>
+
+<section id="treat"><span class="tag">6 · Trajtimi</span><h2>Si trajtohet kanceri, hap pas hapi</h2>
+<p class="lead" style="margin-left:0">Trajtimi nuk është një ilaç i vetëm, por një rrugë me faza. Kliko çdo hap për të parë çfarë ndodh dhe pse funksionon.</p>
+<div class="key"><b>Ideja kryesore:</b> çdo trajtim shfrytëzon një dobësi biologjike të qelizës kanceroze: ADN-në e dëmtuar, ndarjen e shpejtë, proteinën e mutuar ose mënyrën si fshihet nga imuniteti. Plani ndryshon nga pacienti te pacienti dhe nuk i përmban domosdoshmërisht të gjitha hapat.</div>
+<div class="card stp"><div class="bar" style="margin-bottom:.8rem"><b id="tpb"></b></div><div class="causes" id="tsr"></div><div id="tsb" style="margin-top:1rem"></div></div></section>
+
+<section id="match"><span class="tag">7 · Përshtat fjalët</span><h2>Plotëso fjalitë me termin e duhur</h2>
+<p class="lead" style="margin-left:0">Zgjidh një term nga lista, pastaj kliko fjalinë ku i përshtatet. Një term është i tepërt.</p>
+<div class="card" style="padding:1.2rem"><div id="mw" style="font-weight:600;color:var(--mut)"></div><div class="wb" id="wb"></div><div id="ml"></div><div id="mr" style="font-weight:700;margin-top:.8rem"></div><button class="btn" id="mx" style="margin-top:.6rem">↺ Rifillo</button></div></section>
+
+<section id="games"><span class="tag">8 · Aktivitete</span><h2>Aktivitete interaktive</h2>
+<p class="lead" style="margin-left:0">Katër aktivitete që përforcojnë termat dhe mekanizmat e mësuar. Zgjidh një aktivitet.</p>
+<div class="causes" id="gt" style="margin-bottom:1rem"></div><div class="card" style="padding:1.2rem" id="gb"></div></section>
+
+<section id="quiz"><span class="tag">9 · Mit dhe fakt</span><h2>Korrigjo keqkuptimet e zakonshme</h2>
+<div class="card qz"><div id="qp" style="font-weight:600;color:var(--mut)"></div><div class="qt" id="qq"></div>
+<div class="qa" id="qb"><button class="btn" data-a="0" style="background:#ee3f7f;color:#fff">❌ Mit</button><button class="btn" data-a="1" style="background:#14b887;color:#fff">✅ Fakt</button></div>
+<div id="qf"></div><button class="btn" id="qn" style="display:none">Tjetra →</button></div></section>
+
+<section id="mcq"><span class="tag">10 · Pyetje me alternativa</span><h2>Zbato njohuritë</h2><p class="lead" style="margin-left:0">Zgjidh përgjigjen e saktë. Pyetjet kërkojnë arsyetim, jo vetëm kujtim.</p><div class="card qz" style="text-align:left"><div id="mp" style="font-weight:600;color:var(--mut)"></div><div class="qt" id="mq"></div><div id="mo" style="display:grid;gap:.6rem;margin:1rem 0"></div><div id="mf" style="min-height:4.5rem;line-height:1.55;font-weight:600"></div><button class="btn" id="mn" style="display:none">Tjetra →</button></div></section>
+
+<section id="facts"><span class="tag">11 · Kërkimi</span><h2>Raste nga kërkimi shkencor</h2>
+<p class="lead" style="margin-left:0">Kliko një kartë për të lexuar më shumë.</p><div class="fg" id="fg"></div></section>
+
+<section id="terms"><span class="tag">12 · Terma kyç</span><h2>Fjalor i shkurtër</h2><div class="card" style="padding:1.3rem"><dl><dt>Mutacion</dt><dd>Ndryshim i qëndrueshëm në sekuencën e ADN-së.</dd><dt>Onkogjen</dt><dd>Gjen që, kur mutohet ose aktivizohet tepër, nxit ndarjen.</dd><dt>Gjen frenues</dt><dd>Gjen që ndalon ciklin qelizor ose nxit apoptozën (p53, RB).</dd><dt>Cikli qelizor</dt><dd>Sekuenca e fazave nga rritja deri te ndarja e qelizës.</dd><dt>Apoptozë</dt><dd>Vdekje e programuar e qelizës.</dd><dt>Telomeraza</dt><dd>Enzimë që rindërton skajet e kromozomeve (telomeret).</dd><dt>Angjiogjenezë</dt><dd>Formimi i enëve të reja të gjakut.</dd><dt>Metastazë</dt><dd>Përhapja e qelizave tumorale në organe të largëta.</dd><dt>Kancerogjen</dt><dd>Faktor që mund të shkaktojë kancer (UV, duhan, azbest).</dd><dt>Biopsi</dt><dd>Marrja e një kampioni indi për diagnozë.</dd></dl></div></section>
+
+<button class="btn" id="up" aria-label="Kthehu lart" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<footer><b>Punoi: Rea Manaj</b></footer>
+
+<script>
+const $=s=>document.querySelector(s),cl=x=>Math.max(0,Math.min(1,x)),ease=x=>{x=cl(x);return x*x*(3-2*x)};
+const mixc=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k|0);
+const T=[95,242,224],P=[255,122,200],V=[170,140,255],Y=[255,214,120],AB=[175,130,215],HC=[T,P,V];
+function glow(c,x,y,r,col,a){const g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,`rgba(${col},${a})`);g.addColorStop(1,`rgba(${col},0)`);c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,6.283);c.fill();}
+function cell(c,x,y,r,col,t,ph,ab){c.save();c.translate(x,y);const[a,b,d]=col;glow(c,0,0,r*1.6,col.join(','),.3);
+c.beginPath();const w=ab?.08:.04;for(let i=0;i<=40;i++){const th=i/40*6.283,k=1+w*Math.sin(th*(ab?5:3)+t*1.6+ph)+.025*Math.sin(th*5-t+ph),px=Math.cos(th)*r*k,py=Math.sin(th)*r*k;i?c.lineTo(px,py):c.moveTo(px,py);}c.closePath();
+const rg=c.createRadialGradient(-r*.35,-r*.4,r*.1,0,0,r*1.1);rg.addColorStop(0,`rgba(${Math.min(255,a+80)},${Math.min(255,b+80)},${Math.min(255,d+80)},.95)`);rg.addColorStop(1,`rgba(${a*.75|0},${b*.75|0},${d*.85|0},.92)`);
+c.fillStyle=rg;c.fill();c.lineWidth=r*.06;c.strokeStyle='rgba(255,255,255,.65)';c.stroke();
+c.save();c.clip();for(let i=0;i<3;i++){const an=ph+i*2.1+t*.12;c.save();c.translate(Math.cos(an)*r*.6,Math.sin(an)*r*.55);c.rotate(an+1);c.beginPath();c.ellipse(0,0,r*.17,r*.09,0,0,6.283);c.fillStyle='rgba(255,185,140,.7)';c.fill();c.restore();}c.restore();
+c.beginPath();c.ellipse(r*.28,-r*.32,r*.26,r*.22,.4,0,6.283);c.fillStyle='rgba(90,40,170,.5)';c.fill();
+c.beginPath();c.ellipse(-r*.45,-r*.5,r*.2,r*.1,-.6,0,6.283);c.fillStyle='rgba(255,255,255,.55)';c.fill();
+const bl=Math.sin(t*.9+ph*3)>.97?.12:1,er=r*.14;
+for(const s of[-1,1]){c.save();c.translate(s*r*.2-r*.05,r*.1);c.scale(1,bl);c.beginPath();c.ellipse(0,0,er,er*1.25,0,0,6.283);c.fillStyle='#fff';c.fill();const ox=Math.sin(t*.7+ph)*er*.3;c.beginPath();c.arc(ox,er*.1,er*.62,0,6.283);c.fillStyle='#1b1450';c.fill();c.beginPath();c.arc(ox+er*.2,-er*.1,er*.2,0,6.283);c.fillStyle='#fff';c.fill();c.restore();
+if(ab){c.beginPath();c.moveTo(s*r*.2-r*.05-s*er,-r*.1);c.lineTo(s*r*.2-r*.05+s*er*.9,-r*.1-er*.7);c.lineWidth=r*.04;c.lineCap='round';c.strokeStyle='#1b1450';c.stroke();}}
+c.beginPath();c.lineWidth=r*.05;c.lineCap='round';c.strokeStyle='#1b1450';if(ab)c.arc(-r*.05,r*.46,r*.14,1.15*3.14,1.85*3.14);else c.arc(-r*.05,r*.25,r*.16,.15*3.14,.85*3.14);c.stroke();c.restore();}
+function spark(c,x,y,s,t,ph){c.save();c.translate(x,y);c.rotate(t+ph);c.globalAlpha=.5+.5*Math.sin(t*4+ph);c.fillStyle='#fff';c.beginPath();for(let i=0;i<8;i++){const r=i%2?s*.3:s;c.lineTo(Math.cos(i*.785)*r,Math.sin(i*.785)*r);}c.fill();c.restore();}
+
+/* HERO */
+(()=>{const cv=$('#hc'),c=cv.getContext('2d');let W=800,H=600,cs=[],ps=[],t=0,last=0;
+const rs=()=>{const d=Math.min(2,devicePixelRatio||1);W=cv.clientWidth||innerWidth||800;H=cv.clientHeight||600;cv.width=W*d;cv.height=H*d;c.setTransform(d,0,0,d,0,0);};rs();addEventListener('resize',rs);
+const C4=[T,P,V,Y];for(let i=0;i<16;i++)cs.push({x:Math.random()*W,y:Math.random()*H,r:26+Math.random()*44,col:C4[i%4],vx:(Math.random()-.5)*24,vy:(Math.random()-.5)*24,ph:Math.random()*6,j:0});
+cv.addEventListener('pointerdown',e=>{const b=cv.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;for(const k of cs)if(Math.hypot(x-k.x,y-k.y)<k.r*1.2){k.j=1;for(let i=0;i<10;i++){const a=Math.random()*6.283,s=60+Math.random()*120;ps.push({x:k.x,y:k.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1});}}});
+function loop(n){const dt=Math.min(.05,(n-last)/1000||.016);last=n;t+=dt;c.clearRect(0,0,W,H);
+for(const k of cs){k.x+=k.vx*dt;k.y+=k.vy*dt+Math.sin(t+k.ph)*.2;if(k.x<-80)k.x=W+80;if(k.x>W+80)k.x=-80;if(k.y<-80)k.y=H+80;if(k.y>H+80)k.y=-80;k.j=Math.max(0,k.j-dt*1.5);cell(c,k.x,k.y,k.r*(1+.35*Math.sin(k.j*3.14)),k.col,t,k.ph,0);}
+for(let i=ps.length-1;i>=0;i--){const p=ps[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.l-=dt*1.3;if(p.l<=0){ps.splice(i,1);continue;}glow(c,p.x,p.y,14*p.l+4,'255,214,120',p.l);}
+requestAnimationFrame(loop);}requestAnimationFrame(loop);})();
+
+/* LAB */
+(()=>{const cv=$('#lc'),c=cv.getContext('2d');cv.width=1600;cv.height=992;const S=1.6;
+const GENES=[['p53 – roja e ADN-së','Gjeni p53 e ndalon qelizën kur ADN-ja është e dëmtuar dhe nxit riparimin ose vdekjen e saj.'],['Riparimi i ADN-së','Proteinat e riparimit korrigjojnë gabimet në ADN para ndarjes.'],['Sinjali STOP','Gjenet frenuese e ndalojnë ndarjen kur qeliza nuk duhet të shumohet.'],['Apoptoza','Vdekja e programuar: qeliza e dëmtuar vetëshkatërrohet.'],['Onkogjeni ("gazi")','Kur dëmtohet, mbetet i ndezur dhe e nxit qelizën të ndahet vazhdimisht.'],['Telomeraza','Kur riaktivizohet, qeliza ndahet pa limit dhe bëhet "e pavdekshme".']];
+const CAUSES=[['☀️','Rrezet UV','Rrezet UV dëmtojnë ADN-në e qelizave të lëkurës.',[0,1]],['🚬','Duhani','Kancerogjenët e duhanit lidhen me ADN-në dhe shkaktojnë mutacione.',[1,3,4]],['🦠','Viruset (HPV)','Disa viruse bllokojnë proteina mbrojtëse si p53.',[0,2]],['🧪','Kimikate','Kimikate si benzeni ose azbesti dëmtojnë ADN-në.',[2,4,5]],['🧬','Gjen i trashëguar','Disa njerëz trashëgojnë një gjen të dëmtuar që në lindje.',[0,2]]];
+let bad,phase,cells,fx,sp,now=0,mt=0;const gl=$('#genes'),msgE=$('#msg'),cnt=$('#cnt');
+const msg=s=>{msgE.textContent=s;};
+GENES.forEach((g,i)=>{const li=document.createElement('li');li.innerHTML='<i></i><span>'+g[0]+'</span>';li.onclick=()=>msg(g[0]+': '+g[1]);gl.appendChild(li);});
+CAUSES.forEach((k,i)=>{const b=document.createElement('button');b.className='cb';b.textContent=k[0]+' '+k[1];b.onclick=()=>hit(i);$('#causes').appendChild(b);});
+function upd(){[...gl.children].forEach((li,i)=>li.classList.toggle('bad',bad[i]));const n=bad.filter(Boolean).length;$('#dm').style.width=(n/4*100>100?100:n/4*100)+'%';}
+function mkc(x,y,R,o){return Object.assign({x,y,r:R*.8,R,ab:0,col:HC[0],ph:Math.random()*6,dv:0,ang:0,nd:1e9,hx:x,hy:y,k:0},o||{});}
+function init(){bad=Array(6).fill(false);phase='h';fx=[];sp=[];cells=[mkc(500,310,105,{main:1,k:.6})];
+for(let i=0;i<10;i++){const a=i/10*6.283,x=500+Math.cos(a)*400,y=310+Math.sin(a)*235;cells.push(mkc(x,y,50,{col:HC[i%3],ph:i,k:.7}));}
+upd();cnt.style.display='none';msg('Qeliza është e shëndetshme. Zgjidh një shkak për ta dëmtuar ADN-në.');}
+function hit(i){if(phase!='h'){msg('Qeliza është tashmë kancerogjene. Shtyp "Rifillo" për të provuar përsëri.');return;}
+let l=CAUSES[i][3].filter(g=>!bad[g]);if(!l.length)l=bad.map((b,k)=>b?-1:k).filter(k=>k>=0);if(!l.length){msg('Të gjitha gjenet janë dëmtuar!');return;}
+fx.push({e:CAUSES[i][0],t0:now,g:l[l.length*Math.random()|0],y:90+(fx.length%4)*110});msg(CAUSES[i][2]);}
+function impact(f){bad[f.g]=true;upd();for(let k=0;k<12;k++){const a=Math.random()*6.283,s=80+Math.random()*160;sp.push({x:500,y:310,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1});}
+msg('💥 U dëmtua: '+GENES[f.g][0]+'. '+GENES[f.g][1]);if(bad.filter(Boolean).length>=4&&phase=='h')setTimeout(transform,1600);}
+function transform(){if(phase!='h')return;phase='t';const m=cells[0];m.ab=1;m.col=AB;m.nd=now+.8;cnt.style.display='block';msg('⚠️ Mbrojtja dështoi! Qeliza ndahet pa kontroll dhe formon një tumor. Kliko qelizat e mutuara për t’i ndarë më shpejt.');}
+$('#rp').onclick=()=>{if(phase!='h'){msg('Është vonë: qeliza është bërë kancerogjene.');return;}
+if(!bad.some(Boolean)){msg('Nuk ka dëmtim për t’u riparuar. Qeliza është në rregull.');return;}
+if(bad[0]||bad[1]){msg('❌ Riparimi dështoi: gjenet p53 dhe riparimi i ADN-së janë dëmtuar, ndaj gabimet grumbullohen.');return;}
+bad[bad.indexOf(true)]=false;upd();msg('✅ Qeliza e riparoi dëmtimin. Mbrojtja funksionon kur p53 dhe riparimi janë të shëndetshëm.');};
+$('#rs').onclick=init;
+const total=()=>cells.length;
+function divide(k){if(k.dv||total()>=70)return;k.dv=now;k.ang=Math.random()*6.283;}
+function fin(k){const o=k.r*.85,cx=Math.cos(k.ang),sy=Math.sin(k.ang),d=mkc(k.x+cx*o,k.y+sy*o,k.R,{ab:1,col:AB,ph:Math.random()*6,nd:now+1.5+Math.random()*1.5});d.r=k.r*.88;k.x-=cx*o;k.y-=sy*o;k.r*=.88;k.dv=0;k.nd=now+1.5+Math.random()*1.5;cells.push(d);}
+cv.addEventListener('pointerdown',e=>{if(phase!='t')return;const b=cv.getBoundingClientRect(),x=(e.clientX-b.left)/b.width*1000,y=(e.clientY-b.top)/b.height*620;for(const k of cells)if(k.ab&&Math.hypot(x-k.x,y-k.y)<k.r){divide(k);break;}});
+function sim(dt){for(const k of cells){k.r+=(k.R-k.r)*Math.min(1,dt*2.5);if(k.dv){if(now-k.dv>1)fin(k);}else if(k.ab&&now>k.nd)divide(k)||(k.nd=now+1);
+if(k.k){k.x+=(k.hx-k.x)*k.k*dt;k.y+=(k.hy-k.y)*k.k*dt;}if(k.ab){k.x+=(500-k.x)*.2*dt;k.y+=(310-k.y)*.2*dt;}}
+for(let it=0;it<3;it++)for(let i=0;i<cells.length;i++)for(let j=i+1;j<cells.length;j++){const a=cells[i],b=cells[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1,m=(a.r+b.r)*.92-d;if(m>0){const u=m*.5/d;a.x-=dx*u;a.y-=dy*u;b.x+=dx*u;b.y+=dy*u;}}
+for(const k of cells){k.x=Math.max(k.r,Math.min(1000-k.r,k.x));k.y=Math.max(k.r,Math.min(620-k.r,k.y));}}
+let last=0;function loop(n){const dt=Math.min(.05,(n-last)/1000||.016);last=n;now+=dt;sim(dt);
+c.setTransform(S,0,0,S,0,0);c.clearRect(0,0,1000,620);const nb=bad.filter(Boolean).length;
+cells[0].col=phase=='t'?AB:mixc(T,AB,Math.min(1,nb/4));cells[0].ab=phase=='t'||nb>=3?1:0;
+for(const k of cells){if(k.dv){const p=ease((now-k.dv)/1),o=p*k.r*.85,cx=Math.cos(k.ang),sy=Math.sin(k.ang),rr=k.r*(1-.12*p);cell(c,k.x-cx*o,k.y-sy*o,rr,k.col,now,k.ph,k.ab);cell(c,k.x+cx*o,k.y+sy*o,rr,k.col,now,k.ph+1,k.ab);}else cell(c,k.x,k.y,k.r,k.col,now,k.ph,k.ab);}
+for(let i=fx.length-1;i>=0;i--){const f=fx[i],u=(now-f.t0)/.9;if(u>=1){impact(f);fx.splice(i,1);continue;}const x=60+(500-60)*ease(u),y=f.y+(310-f.y)*ease(u);glow(c,x,y,50,'255,214,120',.5);c.font='44px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(f.e,x,y);}
+for(let i=sp.length-1;i>=0;i--){const p=sp[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.l-=dt*1.3;if(p.l<=0){sp.splice(i,1);continue;}glow(c,p.x,p.y,10*p.l+3,'255,122,200',p.l);}
+if(phase=='t')cnt.textContent='Qeliza tumorale: '+cells.filter(k=>k.ab).length;
+requestAnimationFrame(loop);}init();requestAnimationFrame(loop);})();
+
+/* MATH */
+(()=>{const sl=$('#sl'),cv=$('#mc'),c=cv.getContext('2d');cv.width=720;cv.height=520;let n=0,rad=10,t=0,last=0;
+const fmt=x=>x<1e6?Math.round(x).toLocaleString('en-US').replace(/,/g,' '):x<1e9?(x/1e6).toFixed(1)+' milion':x<1e12?(x/1e9).toFixed(1)+' miliard':(x/1e12).toFixed(1)+' trilion';
+const ST=[[10,'Një grumbull shumë i vogël, krejt i padukshëm.'],[20,'Ende mikroskopik: nuk ka asnjë simptomë dhe nuk dallohet me imazheri.'],[27,'Sa një kokërr orizi: ende zakonisht i pazbulueshëm.'],[31,'Afër 1 cm: madhësia kur tumoret fillojnë të zbulohen me imazheri.'],[36,'Disa centimetra: tumor i dukshëm, që mund të shtypë organet përreth.'],[41,'Rreth 10 cm ose më shumë: tumor shumë i madh. Në realitet zbulohet shumë më herët.']];
+function upd(){n=+sl.value;const x=2**n,V=x/1e9,d=Math.cbrt(6*V/Math.PI);$('#nn').textContent=n;$('#cc').textContent=fmt(x);
+$('#sz').textContent=d<.01?'mikroskopike (nën 0.1 mm)':d<1?(d*10).toFixed(1)+' mm':d.toFixed(1)+' cm';$('#st').textContent=ST.find(s=>n<s[0])[1];}
+sl.oninput=upd;[10,20,30,40].forEach(v=>{const b=document.createElement('button');b.className='cb';b.textContent=v+' ndarje';b.onclick=()=>{sl.value=v;upd();};$('#ch').appendChild(b);});upd();
+function loop(tt){const dt=Math.min(.05,(tt-last)/1000||.016);last=tt;t+=dt;const tr=14+n*5.6;rad+=(tr-rad)*Math.min(1,dt*5);
+c.clearRect(0,0,720,520);const cx=360,cy=250;glow(c,cx,cy,rad*1.6,'170,140,255',.25);
+const N=Math.min(70,Math.max(1,Math.round(2**(n/5.8))));const cr=Math.max(5,rad/(Math.sqrt(N)+.6)*1.05);
+for(let i=0;i<N;i++){const a=i*2.39996,rr=Math.sqrt((i+.5)/N)*(rad-cr);cell(c,cx+Math.cos(a)*rr,cy+Math.sin(a)*rr,cr,AB,t,i,n>5?1:0);}
+c.fillStyle='rgba(120,110,200,.8)';c.fillRect(40,480,100,6);c.font='600 18px Poppins,sans-serif';c.textAlign='left';c.fillText('≈ 1 cm',150,488);
+requestAnimationFrame(loop);}requestAnimationFrame(loop);})();
+
+/* HALLMARKS */
+(()=>{const H=[['🚀','Rritje pa fund','Sinjale rritjeje të vazhdueshme','Qelizat e kancerit nxisin vetë ndarjen e tyre, edhe pa sinjalet që duhen nga trupi.'],['🛑','Injorojnë STOP-in','Shmangin frenuesit e rritjes','Gjenet frenuese, si p53, nuk funksionojnë më, ndaj ndarja nuk ndalon.'],['💀','Nuk vdesin','Rezistojnë vdekjes qelizore','Apoptoza bllokohet: qelizat e dëmtuara nuk vetëshkatërrohen si duhet.'],['♾️','Të pavdekshme','Ndarje pa limit','Telomeraza riaktivizohet dhe qeliza mund të ndahet pa pushim, ndryshe nga qelizat normale.'],['🩸','Nxisin enë gjaku','Angjiogjeneza','Tumori nxit formimin e enëve të reja të gjakut për të marrë oksigjen dhe ushqim.'],['🧳','Pushtojnë dhe udhëtojnë','Invazion dhe metastazë','Qelizat shkëputen nga tumori, hyjnë në gjak ose limfë dhe formojnë tumore në organe të tjera.']];
+H.forEach(h=>{const d=document.createElement('div');d.className='fc';d.innerHTML=`<div class="fi"><div class="ff"><i>${h[0]}</i><b>${h[1]}</b><small>${h[2]}</small></div><div class="fb">${h[3]}</div></div>`;d.onclick=()=>d.classList.toggle('on');$('#hg').appendChild(d);});})();
+
+/* QUIZ */
+(()=>{const Q=[['Kanceri është ngjitës si gripi.',0,'Kanceri nuk ngjitet nga një person te tjetri. Disa viruse, si HPV, rrisin rrezikun, por vetë kanceri nuk është ngjitës.'],['Duhani shkakton kancer vetëm në mushkëri.',0,'Duhani lidhet me kancer të mushkërive, gojës, fytit, fshikëzës, pankreasit dhe organeve të tjera.'],['Zbulimi i hershëm rrit shanset për shërim.',1,'Kur kanceri zbulohet para se të përhapet, trajtimi është më i thjeshtë dhe rezultatet janë më të mira.'],['Çdo tumor është kancer.',0,'Tumoret beninje nuk pushtojnë indet përreth dhe nuk japin metastaza. Vetëm tumoret malinje janë kancer.'],['Kanceri trashëgohet gjithmonë.',0,'Vetëm rreth 5–10% e kancereve lidhen me mutacione të trashëguara. Shumica fitohen gjatë jetës.'],['Kremi mbrojtës e ul rrezikun e kancerit të lëkurës.',1,'Mbrojtja nga rrezet UV e ul dëmtimin e ADN-së në lëkurë.'],['Vaksina kundër HPV mund të parandalojë disa kancere.',1,'Ajo mbron nga llojet e HPV që shkaktojnë kancerin e qafës së mitrës dhe kancere të tjera.'],['Kanceri është një sëmundje e vetme.',0,'Ekzistojnë qindra lloje kanceri, me shkaqe, sjellje dhe trajtime të ndryshme.'],['Qelizat e kancerit vijnë nga qelizat e vetë trupit.',1,'Ato janë qeliza tona që kanë mutuar dhe kanë humbur kontrollin e ndarjes.']];
+let i=0,sc=0,ans=false;const qb=$('#qb'),qf=$('#qf'),qn=$('#qn');
+function show(){ans=false;qb.style.display='flex';qn.style.display='none';qf.textContent='';$('#qp').textContent='Pyetja '+(i+1)+' nga '+Q.length+' · Pikë: '+sc;$('#qq').textContent=Q[i][0];}
+qb.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(ans)return;ans=true;const ok=(+b.dataset.a)==Q[i][1];if(ok)sc++;qf.innerHTML=(ok?'<span class="ok">✅ Saktë!</span> ':'<span class="no">❌ Jo saktë.</span> ')+'Ishte '+(Q[i][1]?'<b>fakt</b>':'<b>mit</b>')+'. '+Q[i][2];qn.style.display='inline-block';qn.textContent=i==Q.length-1?'Shiko rezultatin':'Tjetra →';});
+let done=false;qn.onclick=()=>{if(done){i=0;sc=0;done=false;show();return}i++;if(i<Q.length)show();else{done=true;qb.style.display='none';$('#qp').textContent='';$('#qq').textContent='Rezultati: '+sc+' nga '+Q.length;qf.textContent=sc>=8?'🏆 Shkëlqyeshëm! Di shumë për kancerin.':sc>=5?'👍 Mirë! Provo përsëri për të gjitha pikët.':'📚 Rishiko seksionet lart dhe provo sërish!';qn.textContent='Provo përsëri ↺'}};
+show();})();
+
+/* FACTS */
+(()=>{[['🐘','Elefantët','Elefantët kanë rreth 20 kopje të gjenit TP53, ndërsa njeriu ka 2. Qelizat e tyre të dëmtuara vdesin më lehtë, ndaj kanceri është më i rrallë se sa pritet nga madhësia e trupit të tyre.'],['🐭','Minjtë e zhveshur','Minjtë e zhveshur të tokës jetojnë deri rreth 30 vjet dhe rrallë zhvillojnë kancer. Studiuesit po i studiojnë mekanizmat e tyre mbrojtës për të gjetur ide të reja.'],['🔬','Qelizat HeLa','Në vitin 1951 qelizat e një tumori të Henrietta Lacks u rritën në laborator dhe ende përdoren në kërkime në mbarë botën. Qelizat u morën pa dijeninë e saj, ndaj historia ngriti pyetje etike për pëlqimin e pacientit.']].forEach(f=>{const d=document.createElement('div');d.className='card fk';d.innerHTML=`<i>${f[0]}</i><h3>${f[1]}</h3><p>${f[2]}</p><small style="color:var(--acc2);font-weight:600">Kliko për më shumë ↓</small>`;d.onclick=()=>d.classList.toggle('on');$('#fg').appendChild(d);});})();
+
+/* BENIGN */
+(()=>{const Q=[['Pushton indet përreth.',1,'Pushtimi i indeve fqinje është shenjë e tumorit malinj.'],['Rritet ngadalë dhe ka një kapsulë rreth vetes.',0,'Kapsula e mban tumorin beninj të kufizuar.'],['Mund të japë metastaza në organe të largëta.',1,'Metastaza ndodh vetëm te tumoret malinj, përmes gjakut ose limfës.'],['Nuk përhapet në pjesë të tjera të trupit.',0,'Tumoret beninj nuk japin metastaza.'],['Qelizat duken shumë të çrregullta nën mikroskop.',1,'Tumoret malinj shpesh kanë qeliza atipike, të ndryshme nga ato normale.'],['Nishani i zakonshëm.',0,'Nishani i zakonshëm është beninj. Por nëse ndryshon ngjyrë, formë ose madhësi, duhet kontrolluar nga mjeku.']];
+let i=0,sc=0,an=0,dn=false;const bb=$('#bb'),bf=$('#bf'),bn=$('#bn');
+function show(){an=0;bb.style.display='flex';bn.style.display='none';bf.textContent='';$('#bp').textContent='Thënia '+(i+1)+' nga '+Q.length+' · Pikë: '+sc;$('#bq').textContent=Q[i][0]}
+bb.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(an)return;an=1;const ok=+b.dataset.a==Q[i][1];if(ok)sc++;bf.innerHTML=(ok?'<span class="ok">✅ Saktë!</span> ':'<span class="no">❌ Jo saktë.</span> ')+'Është tumor <b>'+(Q[i][1]?'malinj':'beninj')+'</b>. '+Q[i][2];bn.style.display='inline-block';bn.textContent=i==Q.length-1?'Shiko rezultatin':'Tjetra →'});
+bn.onclick=()=>{if(dn){i=0;sc=0;dn=false;show();return}i++;if(i<Q.length)show();else{dn=true;bb.style.display='none';$('#bp').textContent='';$('#bq').textContent='Rezultati: '+sc+' nga '+Q.length;bf.textContent=sc==Q.length?'🏆 Shkëlqyeshëm! I dallon mirë.':'Rishiko dallimet dhe provo sërish.';bn.textContent='Provo përsëri ↺'}};show()})();
+
+/* PROTECT */
+(()=>{const H=[['🚭','Pa duhan','Duhani është shkaku kryesor i parandalueshëm i kancerit dhe lidhet me shumë lloje, jo vetëm me mushkëritë.'],['🧴','Mbrojtje nga dielli','SPF 30+, hije dhe veshje e ulin dëmtimin e ADN-së nga rrezet UV. Shmang solariumin.'],['💉','Vaksinat','Vaksina HPV mbron nga kanceri i qafës së mitrës. Ajo kundër hepatitit B mbron mëlçinë.'],['🥦','Ushqim i shëndetshëm','Perime, fruta dhe drithëra të plota, me më pak mish të përpunuar dhe alkool.'],['🏃','Lëvizje dhe peshë e shëndetshme','Aktiviteti i rregullt dhe pesha e shëndetshme e ulin rrezikun e disa kancereve.']];
+H.forEach(h=>{const d=document.createElement('div');d.className='card fk';d.innerHTML='<i>'+h[0]+'</i><h3>'+h[1]+'</h3><p>'+h[2]+'</p><small>Kliko për ta aktivizuar</small>';d.onclick=()=>{d.classList.toggle('on');d.querySelector('small').textContent=d.classList.contains('on')?'✔ Aktive':'Kliko për ta aktivizuar';up()};$('#pg').appendChild(d)});
+function up(){const n=document.querySelectorAll('#pg .fk.on').length;$('#pm').style.width=n/5*100+'%';$('#pt').textContent=n==0?'Asnjë shtresë mbrojtëse. Kliko zakonet për të ndërtuar mbrojtjen.':n<5?n+' nga 5 shtresa aktive. Çdo zakon ndihmon, por më mirë të kombinohen.':'🛡️ Mbrojtje e plotë! Zakonet e shëndetshme nuk japin garanci, por e ulin shumë rrezikun. Mos harro kontrollet e rregullta te mjeku.'}up()})();
+
+/* KLASA XII */
+(()=>{const H=[['Sinjale të vazhdueshme rritjeje','Onkogjenet (p.sh. RAS) ose receptorët e mutuar (EGFR) mbeten të aktivizuar dhe nxisin ndarjen pa sinjal nga jashtë.'],['Shmangia e frenuesve të rritjes','Humbja e gjeneve frenuese si p53 dhe RB heq pikat e kontrollit të ciklit qelizor.'],['Rezistenca ndaj apoptozës','Qeliza e dëmtuar nuk aktivizon vdekjen e programuar, p.sh. për shkak të humbjes së p53 ose tepricës së BCL-2.'],['Ndarje e pakufizuar','Riaktivizimi i telomerazës mban telomeret e gjata, ndaj qeliza nuk arrin kufirin normal të ndarjeve.'],['Angjiogjeneza','Tumori çliron faktorë si VEGF që nxisin formimin e enëve të reja të gjakut për oksigjen dhe lëndë ushqyese.'],['Invazion dhe metastazë','Qelizat humbasin ngjitjen me fqinjët, depërtojnë në indet përreth dhe hyjnë në gjak ose limfë për të formuar tumore dytësore.']];
+const hg=$('#hg');hg.innerHTML='';H.forEach((h,i)=>{const d=document.createElement('div');d.className='fc';d.innerHTML='<div class="fi"><div class="ff"><i style="font-weight:800;color:var(--acc2);font-size:2.4rem">'+(i+1)+'</i><b>'+h[0]+'</b><small>Kliko për mekanizmin</small></div><div class="fb">'+h[1]+'</div></div>';d.onclick=()=>d.classList.toggle('on');hg.appendChild(d)});
+const F=[['Elefantët dhe gjeni TP53','Elefantët kanë rreth 20 kopje të gjenit TP53, njeriu 2. Qelizat e dëmtuara vdesin më lehtë, ndaj kanceri është më i rrallë se sa pritet nga madhësia e trupit (paradoksi i Peto-s).'],['Minjtë e zhveshur të tokës','Jetojnë deri rreth 30 vjet dhe rrallë zhvillojnë kancer. Studiohen mekanizmat e tyre mbrojtës, p.sh. acidi hialuronik me masë të madhe molekulare, i lidhur me rezistencën ndaj tumoreve.'],['Qelizat HeLa','Të marra në 1951 nga Henrietta Lacks pa dijeninë e saj, janë linja e parë qelizore njerëzore e përjetshme dhe përdoren ende në kërkime. Rasti çoi në rregulla më të rrepta për pëlqimin e pacientit.']];
+const fg=$('#fg');fg.innerHTML='';F.forEach((f,i)=>{const d=document.createElement('div');d.className='card fk';d.innerHTML='<i style="font-size:.9rem;font-weight:800;color:var(--acc2)">Rasti '+(i+1)+'</i><h3>'+f[0]+'</h3><p>'+f[1]+'</p><small style="color:var(--acc2);font-weight:600">Kliko për detaje ↓</small>';d.onclick=()=>d.classList.toggle('on');fg.appendChild(d)});
+const M=[['Çfarë ndodh kur gjeni p53 humbet funksionin?',['Qeliza ndalon përgjithmonë së ndari','Qeliza me ADN të dëmtuar nuk ndalet dhe nuk shkatërrohet, ndaj mutacionet grumbullohen','Qeliza prodhon më shumë energji','Qeliza hyn më shpejt në apoptozë'],1,'p53 është pika e kontrollit që ndalon qelizën me ADN të dëmtuar ose e çon në apoptozë. Pa të, dëmtimet kalojnë te qelizat bijë.'],['Një onkogjen është:',['Gjen që riparon ADN-në','Gjen që në gjendje normale frenon ndarjen','Gjen që, kur mutohet ose aktivizohet tepër, nxit ndarjen e vazhdueshme','Gjen që gjendet vetëm në mitokondri'],2,'Onkogjenet vijnë nga gjene normale (proto-onkogjene) që nxisin rritjen. Kur mbeten të ndezura, qeliza ndahet pa kontroll.'],['Një tumor ka 10⁹ qeliza. Sa dyfishime të tjera duhen për të arritur rreth 10¹² qeliza?',['3','10','30','100'],1,'10¹² / 10⁹ = 1000, dhe 2¹⁰ = 1024. Pra duhen rreth 10 dyfishime.'],['Pse metastaza e bën kancerin më të rrezikshëm se një tumor beninj?',['Qelizat e tij janë më të mëdha','Qelizat shkëputen, hyjnë në gjak ose limfë dhe formojnë tumore në organe të tjera','Nuk ka nevojë për oksigjen','Ndahet më ngadalë se qelizat normale'],1,'Tumoret dytësore në organe jetësore janë shkaku kryesor i vdekjeve nga kanceri.'],['Cili është roli i telomerazës në qelizat e kancerit?',['Riparon mutacionet në ADN','Rindërton telomeret, ndaj qeliza mund të ndahet pa limit','Shkatërron qelizat e dëmtuara','Nxit formimin e enëve të gjakut'],1,'Në qelizat normale telomeret shkurtohen me çdo ndarje. Telomeraza e riaktivizuar e heq këtë kufi.'],['Cili faktor rreziku mund të ndryshohet nga vetë personi?',['Mutacion i trashëguar i gjenit BRCA1','Mosha','Ekspozimi i tepërt ndaj rrezeve UV pa mbrojtje','Gjinia biologjike'],2,'Mbrojtja nga dielli, shmangia e duhanit dhe e alkoolit janë faktorë të ndryshueshëm; mosha dhe gjenet e trashëguara nuk ndryshohen.'],['Pse bien flokët gjatë kimioterapisë?',['Barnat dëmtojnë direkt rrënjën e flokut me rreze','Folikulat e flokëve ndahen shpejt dhe preken nga barnat që godasin ndarjen','Flokët nuk marrin më ushqim nga ajo që hahet','Imuniteti sulmon flokët'],1,'Kimioterapia synon qelizat me ndarje të shpejtë. Folikulat, mukoza e zorrëve dhe palca e kockave ndahen shpejt, ndaj preken edhe ato.'],['Pse bëhet testi molekular i tumorit para terapisë së synuar?',['Për të matur peshën e tumorit','Për të gjetur mutacionin ose proteinën që bari mund ta bllokojë','Për të zëvendësuar biopsinë','Për të ulur dozën e rrezatimit'],1,'Terapia e synuar vepron vetëm kur tumori ka objektivin përkatës, p.sh. HER2 ose EGFR.'],['Një tumor ka N0 dhe M0 në sistemin TNM. Çfarë do të thotë?',['Nuk ka përfshirje të nyjeve limfatike dhe as metastaza në organe të largëta','Tumori nuk ka asnjë qelizë','Ka metastaza në të gjithë trupin','Tumori është beninj me siguri'],0,'N0 = pa nyje limfatike të prekura, M0 = pa metastaza të largëta. Madhësia e tumorit (T) vlerësohet veçmas.']];
+let mi=0,ms=0,ma=0,md=false;const mo=$('#mo'),mf=$('#mf'),mn=$('#mn');
+function ms_(){ma=0;mo.style.display='grid';mn.style.display='none';mf.textContent='';$('#mp').textContent='Pyetja '+(mi+1)+' nga '+M.length+' · Pikë: '+ms;$('#mq').textContent=M[mi][0];mo.innerHTML='';M[mi][1].forEach((o,k)=>{const b=document.createElement('button');b.className='btn opt';b.textContent=String.fromCharCode(65+k)+'. '+o;b.onclick=()=>{if(ma)return;ma=1;const ok=k==M[mi][2];if(ok)ms++;b.classList.add(ok?'ok':'no');mo.children[M[mi][2]].classList.add('ok');mf.innerHTML=(ok?'<span class="ok">✅ Saktë.</span> ':'<span class="no">❌ Jo saktë.</span> ')+M[mi][3];mn.style.display='inline-block';mn.textContent=mi==M.length-1?'Shiko rezultatin':'Tjetra →'};mo.appendChild(b)})}
+mn.onclick=()=>{if(md){mi=0;ms=0;md=false;ms_();return}mi++;if(mi<M.length)ms_();else{md=true;mo.style.display='none';$('#mp').textContent='';$('#mq').textContent='Rezultati: '+ms+' nga '+M.length;mf.textContent=ms>=M.length-1?'Shkëlqyeshëm: e zotëron temën.':ms>=M.length/2?'Mirë: rishiko seksionet 1–3 dhe provo përsëri.':'Rilexo seksionet 1–6 dhe provo sërish.';mn.textContent='Provo përsëri ↺'}};ms_()})();
+
+/* TREAT + MATCH */
+(()=>{const S=[['🩺','Dyshimi dhe vizita e parë','Simptomat që zgjasin pa shpjegim (plagë që nuk shërohet, kollë e gjatë, gungë, humbje peshe pa arsye) çojnë te mjeku i familjes, që kërkon analiza dhe e drejton te specialisti.','Një qelizë e vetme nuk jep simptoma. Shenjat shfaqen kur tumori arrin madhësi që ndikon indin përreth.','Shumë simptoma kanë shkaqe të zakonshme. Rregulli praktik: çdo shenjë që zgjat më shumë se 2–3 javë kontrollohet.'],
+['🔍','Diagnoza: vendi dhe lloji','Imazheria (rreze X, ekografi, CT, MRI) tregon ku ndodhet tumori. Biopsia merr një copë ind, dhe patologu e shikon nën mikroskop për të konfirmuar nëse është beninj apo malinj.','Imazheria sheh strukturën, por vetëm qelizat tregojnë natyrën e tumorit. Prandaj biopsia është standardi për diagnozë.','Testet molekulare mbi biopsinë mund të gjejnë mutacionet specifike të tumorit, që më vonë zgjedhin barin e duhur.'],
+['📊','Përcaktimi i stadit','Stadi përshkruhet shpesh me sistemin TNM: T = madhësia e tumorit, N = përfshirja e nyjeve limfatike, M = metastazat. Nga kombinimi del stadi nga I deri në IV.','Stadi i përgjigjet pyetjes “sa larg ka shkuar tumori?”, pra ku ndodhet në shkallën e invazionit dhe metastazës.','Stadi nuk përcakton vetëm prognozën, por edhe rendin e trajtimeve: kirurgjia është më efektive kur sëmundja është e lokalizuar.'],
+['🔪','Kirurgjia','Kirurgu heq tumorin së bashku me një rrip indi të shëndetshëm përreth (margjina) dhe, kur duhet, nyjet limfatike më të afërta.','Në tumorin e lokalizuar mjafton heqja fizike e qelizave. Margjina kërkohet për të mos lënë qeliza të izoluara që mund të rriten sërish.','Patologu e kontrollon pjesën e hequr: nëse skajet e saj janë “të pastra”, kirurgjia konsiderohet e plotë.'],
+['☢️','Radioterapia','Rrezatimi me energji të lartë drejtohet te zona e tumorit dhe dëmton ADN-në e qelizave kanceroze, që pastaj nuk mund të ndahen.','Qelizat kanceroze e riparojnë ADN-në më keq se ato normale, sepse shpesh kanë humbur p53 ose gjene riparimi. Dëmtimi i njëjtë është më vdekjeprurës për to.','Doza ndahet në seanca të vogla çdo ditë. Pushimi mes tyre i jep kohë indit të shëndetshëm të riparohet, ndërsa tumori nuk e arrin dot këtë.'],
+['💧','Kimioterapia','Barnat citostatike qarkullojnë në gjak dhe godasin qelizat që ndahen shpejt, duke penguar kopjimin e ADN-së ose ndarjen.','Tumori është grup qelizash me cikël të shpejtë qelizor, ndaj është i ekspozuar ndaj këtyre barnave. Por barnat nuk dallojnë gjithmonë.','Pse bien flokët? Folikulat e flokëve, mukoza e zorrëve dhe palca e kockave ndahen gjithashtu shpejt, ndaj preken nga i njëjti mekanizëm.'],
+['🎯','Terapia e synuar','Bari bllokon një proteinë të caktuar që e mban tumorin gjallë, p.sh. receptorin HER2 në disa kancere të gjirit ose EGFR në disa kancere të mushkërive.','Është përgjigja ndaj onkogjeneve: nëse “gazi” është një proteinë e mutuar, bllokohet pikërisht ajo. Funksionon vetëm kur tumori e ka atë mutacion.','Prandaj testi molekular vjen para trajtimit: dy tumore në të njëjtin organ mund të kenë mutacione të ndryshme dhe barna të ndryshme.'],
+['🛡️','Imunoterapia','Disa barna heqin “frenat” që qelizat tumorale vendosin mbi limfocitet T, p.sh. bllokojnë ndërveprimin PD-1/PD-L1, dhe sistemi imunitar rifillon t’i sulmojë.','Qelizat e kancerit mund të “maskohen” si qeliza normale. Imunoterapia nuk godet tumorin drejtpërdrejt, por ia kthen imunitetit aftësinë për ta njohur.','Kjo qasje mori çmimin Nobel në Mjekësi në vitin 2018 (James Allison dhe Tasuku Honjo).'],
+['🔁','Ndjekja dhe kujdesi mbështetës','Pas trajtimit vijojnë kontrolle periodike me analiza dhe imazheri për të zbuluar çdo rikthim herët. Gjatë gjithë rrugës ofrohet edhe kujdes mbështetës: kontroll i dhimbjes, ushqyerje, ndihmë psikologjike.','Disa qeliza të pakta mund të mbijetojnë pa u dukur, ndaj rikthimi është i mundur dhe monitorimi është pjesë e trajtimit.','Kujdesi mbështetës nuk është vetëm për fazën e fundit: jepet që nga diagnoza dhe e përmirëson tolerimin e trajtimit.']];
+const row=$('#tsr'),box=$('#tsb'),pb=$('#tpb');let cur=0;
+S.forEach((s,i)=>{const b=document.createElement('button');b.className='cb';b.textContent=(i+1)+' '+s[0];b.title=s[1];b.onclick=()=>go(i);row.appendChild(b)});
+function go(i){cur=i;[...row.children].forEach((b,k)=>{b.classList.toggle('dn',k<=i);b.style.background=k==i?'var(--acc)':'';b.style.color=k==i?'var(--btnt)':''});pb.style.width=(i+1)/S.length*100+'%';const s=S[i];
+box.innerHTML='<small style="color:var(--acc2);font-weight:700">Hapi '+(i+1)+' nga '+S.length+'</small><h3>'+s[0]+' '+s[1]+'</h3><p>'+s[2]+'</p><div class="key"><b>Pse funksionon:</b> '+s[3]+'</div><button class="btn" id="tt" style="background:var(--acc2);color:#fff">💡 Shiko detajin</button><div class="key tip" id="tp" style="margin-top:.8rem"><b>Detaj:</b> '+s[4]+'</div><div class="row" style="margin-top:1rem"><button class="btn" id="tb"'+(i?'':' disabled style="opacity:.4"')+'>← Para</button><button class="btn" id="tn"'+(i<S.length-1?'':' disabled style="opacity:.4"')+'>Pas →</button></div>';
+$('#tt').onclick=()=>$('#tp').classList.toggle('on');$('#tb').onclick=()=>i&&go(i-1);$('#tn').onclick=()=>i<S.length-1&&go(i+1)}
+go(0);
+/* MATCH */
+const W=[['p53','Gjeni _ ndalon qelizën me ADN të dëmtuar ose e çon në apoptozë.','Lidhe me kontrollin e integritetit të ADN-së.'],['telomeraza','Qeliza kanceroze ndahet pa limit sepse riaktivizon enzimën _.','Enzima që rindërton skajet e kromozomeve.'],['metastaza','Përhapja e qelizave tumorale në organe të largëta quhet _.','Ndodh përmes gjakut ose limfës.'],['biopsia','Marrja e një kampioni indi për diagnozë quhet _.','Patologu e shikon nën mikroskop.'],['apoptoza','Vdekja e programuar e qelizës quhet _.','Qelizat e dëmtuara eliminohen nga vetë organizmi.'],['angjiogjeneza','Formimi i enëve të reja të gjakut për tumorin quhet _.','Tumori ka nevojë për oksigjen dhe lëndë ushqyese.'],['onkogjeni','Gjeni që, kur aktivizohet tepër, nxit ndarjen vazhdimisht është _.','Nxit ndarjen e qelizës.'],['mutacioni','Ndryshimi i qëndrueshëm në sekuencën e ADN-së quhet _.','Ndryshim që mund të nisë procesin e kancerit.']];
+const EX='kancerogjeni';let sel=null,ok=0,sh=[];const wb=$('#wb'),ml=$('#ml'),mr=$('#mr');
+function build(){sel=null;ok=0;mr.textContent='';wb.innerHTML='';ml.innerHTML='';
+[...W.map(w=>w[0]),EX].sort(()=>Math.random()-.5).forEach(w=>{const b=document.createElement('button');b.className='cb';b.textContent=w;b.onclick=()=>{[...wb.children].forEach(x=>x.classList.remove('sel'));sel=b;b.classList.add('sel')};wb.appendChild(b)});
+W.slice().sort(()=>Math.random()-.5).forEach(w=>{const d=document.createElement('div');d.className='ms';const p=w[1].split('_');d.innerHTML=p[0]+'<u>&nbsp;</u>'+p[1]+'<small style="display:none"></small>';d.onclick=()=>{if(d.classList.contains('ok'))return;const sm=d.querySelector('small');if(!sel){sm.style.display='block';sm.textContent='Zgjidh më parë një term nga lista.';return}
+if(sel.textContent==w[0]){d.classList.add('ok');d.querySelector('u').textContent=w[0];sm.style.display='none';sel.classList.add('used');sel.classList.remove('sel');sel=null;ok++;upd()}else{d.classList.remove('bad');void d.offsetWidth;d.classList.add('bad');sm.style.display='block';sm.textContent='Jo saktë. Ndihmë: '+w[2]}};ml.appendChild(d)});upd()}
+function upd(){$('#mw').textContent='Plotësuar: '+ok+' nga '+W.length;if(ok==W.length)mr.innerHTML='🏆 Të gjitha fjalitë janë të sakta. Termi i tepërt, <i>kancerogjeni</i>, është faktori që shkakton mutacione (UV, duhan, azbest), pra nuk i përshtatej asnjë fjalie.'}
+$('#mx').onclick=build;build()})();
+
+/* GAMES */
+(()=>{const gb=$('#gb'),gt=$('#gt'),sh=a=>a.slice().sort(()=>Math.random()-.5);
+const G=[['🔤 Gjej termin',hang],['🧠 Çiftëzo termat',mem],['⚖️ Onkogjen apo frenues',gf],['🧩 Rendit procesin',ord]];
+G.forEach((g,i)=>{const b=document.createElement('button');b.className='cb';b.textContent=g[0];b.onclick=()=>{[...gt.children].forEach((x,k)=>{x.style.background=k==i?'var(--acc)':'';x.style.color=k==i?'var(--btnt)':''});g[1]()};gt.appendChild(b)});
+function hang(){const W=[['apoptoza','Vdekja e programuar e qelizës'],['metastaza','Përhapja e tumorit në organe të largëta'],['onkogjen','Gjen që, kur aktivizohet tepër, nxit ndarjen'],['telomeraza','Enzimë që rindërton skajet e kromozomeve'],['biopsia','Marrja e një kampioni indi për diagnozë'],['mutacion','Ndryshim i qëndrueshëm në ADN'],['angjiogjeneza','Formimi i enëve të reja të gjakut'],['kancerogjen','Faktor që mund të shkaktojë kancer'],['imunoterapia','Trajtim që ndihmon limfocitet T të njohin tumorin'],['kimioterapia','Barna që godasin qelizat me ndarje të shpejtë'],['radioterapia','Rrezatim që dëmton ADN-në e qelizave tumorale']];
+let w,hint,g,wr,sc=0,go;const L='abcçdeëfghijklmnopqrstuvxyz';
+function nw(){const x=W[Math.random()*W.length|0];w=x[0];hint=x[1];g=new Set();wr=0;go=false;draw()}
+function draw(){const P=['<circle cx="130" cy="52" r="14"/>','<path d="M130 66v50"/>','<path d="M130 78l-24 22"/>','<path d="M130 78l24 22"/>','<path d="M130 116l-20 30"/>','<path d="M130 116l20 30"/>'];
+const won=[...w].every(c=>g.has(c));go=won||wr>=6;if(won)sc++;
+gb.innerHTML='<div class="gs"><div><svg viewBox="0 0 200 170" style="width:100%;max-height:200px" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"><path d="M30 160h100M50 160V15h80v22"/><g stroke="var(--acc2)">'+P.slice(0,wr).join('')+'</g></svg></div><div><div style="font-weight:600;color:var(--mut)">Pikë: '+sc+' · Gabime: '+wr+' nga 6</div><p style="font-weight:600;line-height:1.5">Ndihmë: '+hint+'</p><div class="hw">'+[...w].map(c=>g.has(c)||wr>=6?c.toUpperCase():'_').join(' ')+'</div></div></div><div class="kb"></div><div id="hm" style="font-weight:700;text-align:center;min-height:1.6rem"></div><div style="text-align:center"><button class="btn" id="hn" style="display:none">Termi tjetër →</button></div>';
+const kb=gb.querySelector('.kb');[...L].forEach(c=>{const b=document.createElement('button');b.className='cb';b.textContent=c.toUpperCase();if(g.has(c)||go){b.disabled=true;if(g.has(c))b.classList.add(w.includes(c)?'ok':'no')}b.onclick=()=>{g.add(c);if(!w.includes(c))wr++;draw()};kb.appendChild(b)});
+if(go){$('#hm').innerHTML=won?'<span class="ok">✅ Saktë: '+w+'!</span>':'<span class="no">❌ Fjala ishte: '+w+'.</span>';$('#hn').style.display='inline-block';$('#hn').onclick=nw}}
+nw()}
+function mem(){const P=[['Apoptozë','Vdekje e programuar'],['Telomeraza','Rindërton skajet e kromozomeve'],['Metastazë','Përhapje në organe të largëta'],['Biopsi','Kampion indi për diagnozë'],['Angjiogjenezë','Enë të reja gjaku'],['Onkogjen','Gjen që nxit ndarjen'],['p53','Roja e ADN-së'],['Imunoterapi','Zgjon limfocitet T']];
+const C=sh(P.flatMap((p,i)=>[{i,t:p[0]},{i,t:p[1]}]));let op=[],mv=0,ok=0,lock=false;
+gb.innerHTML='<div id="mi" style="font-weight:600;color:var(--mut);margin-bottom:.8rem">Çiftëzo çdo term me përkufizimin e tij.</div><div class="mg"></div><div style="margin-top:1rem"><button class="btn" id="mr2">↺ Rifillo</button></div>';
+const g=gb.querySelector('.mg');$('#mr2').onclick=mem;
+C.forEach(c=>{const b=document.createElement('button');b.className='mc cl';b.textContent='🧬';c.b=b;b.onclick=()=>{if(lock||c.o||c.m)return;c.o=1;b.classList.remove('cl');b.textContent=c.t;op.push(c);if(op.length==2){mv++;const[x,y]=op;if(x.i==y.i){x.m=y.m=1;x.b.classList.add('ok');y.b.classList.add('ok');op=[];ok++;if(ok==P.length)$('#mi').innerHTML='🏆 Të gjitha çiftet u gjetën në '+mv+' lëvizje.';}else{lock=true;setTimeout(()=>{[x,y].forEach(z=>{z.o=0;z.b.classList.add('cl');z.b.textContent='🧬'});op=[];lock=false},900)}if(ok<P.length)$('#mi').textContent='Lëvizje: '+mv+' · Çifte: '+ok+' nga '+P.length}};g.appendChild(b)})}
+function gf(){const Q=[['RAS','g','Proteinë e sinjalizimit të rritjes: kur mutohet mbetet e ndezur, ndaj është onkogjen.'],['p53','f','Ndalon qelizën me ADN të dëmtuar ose e çon në apoptozë: gjen frenues.'],['EGFR','g','Receptor i rritjes që, kur mutohet ose teprohet, dërgon sinjal ndarjeje pa pushim.'],['RB','f','Gjen frenues që mban ciklin qelizor të bllokuar derisa qeliza të jetë gati.'],['BCL-2','g','Bllokon apoptozën. Teprica e tij ndihmon qelizat e dëmtuara të mbijetojnë, ndaj funksionon si onkogjen.'],['BRCA1','f','Gjen frenues që merr pjesë në riparimin e ADN-së. Humbja e tij lejon grumbullimin e mutacioneve.'],['MYC','g','Faktor transkriptimi që, kur është tepër aktiv, nxit rritjen dhe ndarjen e qelizës.']];
+const q=sh(Q);let i=0,s=0,an=0;
+function sh_(){an=0;gb.innerHTML='<div style="font-weight:600;color:var(--mut)">Gjeni '+(i+1)+' nga '+q.length+' · Pikë: '+s+'</div><div class="qt" style="text-align:center;font-size:2.4rem">'+q[i][0]+'</div><div class="qa"><button class="btn" data-a="g" style="background:#ee3f7f;color:#fff">🚀 Onkogjen</button><button class="btn" data-a="f" style="background:#14b887;color:#fff">🛑 Gjen frenues</button></div><div id="gf" style="min-height:4.5rem;line-height:1.55;font-weight:600;text-align:center"></div><div style="text-align:center"><button class="btn" id="gn" style="display:none">Tjetra →</button></div>';
+gb.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(an)return;an=1;const ok=b.dataset.a==q[i][1];if(ok)s++;$('#gf').innerHTML=(ok?'<span class="ok">✅ Saktë!</span> ':'<span class="no">❌ Jo saktë.</span> ')+q[i][2];$('#gn').style.display='inline-block';$('#gn').textContent=i==q.length-1?'Shiko rezultatin':'Tjetra →';$('#gn').onclick=()=>{i++;if(i<q.length)sh_();else{gb.innerHTML='<div class="qt" style="text-align:center">Rezultati: '+s+' nga '+q.length+'</div><p style="text-align:center;font-weight:600">'+(s>=6?'🏆 Shkëlqyeshëm: i dallon mirë onkogjenet nga gjenet frenuese.':'Rishiko seksionin 1 dhe provo sërish.')+'</p><div style="text-align:center"><button class="btn" id="gr">↺ Provo përsëri</button></div>';$('#gr').onclick=gf}}})}
+sh_()}
+function ord(){const E=['Ekspozim ndaj një kancerogjeni (p.sh. UV, duhan)','Mutacion në ADN','p53 ose riparimi i ADN-së nuk funksionon më','Ndarje pa kontroll: formohet tumori','Tumori nxit enë të reja gjaku (angjiogjeneza)','Qelizat pushtojnë indet përreth','Metastazë në organe të largëta'];
+let n=0;gb.innerHTML='<div style="font-weight:600;color:var(--mut);margin-bottom:.6rem">Rendit fazat e procesit, nga e para te e fundit.</div><div class="gs"><div id="oa" style="display:grid;gap:.5rem;align-content:start"></div><div id="ob" style="display:grid;gap:.5rem;align-content:start"></div></div><div id="om" style="font-weight:700;margin-top:.8rem;line-height:1.5"></div><button class="btn" id="oz" style="margin-top:.6rem">↺ Rifillo</button>';
+$('#oz').onclick=ord;sh(E.map((t,i)=>[t,i])).forEach(([t,i])=>{const b=document.createElement('div');b.className='ms';b.style.margin='0';b.textContent=t;b.onclick=()=>{if(i==n){n++;b.classList.add('ok');b.textContent=n+'. '+t;b.onclick=null;$('#ob').appendChild(b);$('#om').textContent=n<E.length?'Saktë. Cili është hapi pasues?':'🏆 Rruga e plotë: nga një mutacion i vetëm te metastaza. Për secilin hap ka një gjen dhe një trajtim që synon ta ndalojë.'}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');$('#om').textContent='Jo saktë: ky hap vjen më vonë. Cili proces duhet të ndodhë më parë?'}};$('#oa').appendChild(b)})}
+gt.children[0].click()})();
+
+/* NAV ACTIVE + UP */
+(()=>{const L=[...document.querySelectorAll('.nav a')],S=L.map(a=>document.querySelector(a.getAttribute('href'))),up=$('#up');let pk=-1;
+function f(){const y=scrollY+130;let k=0;S.forEach((s,i)=>{if(s&&s.offsetTop<=y)k=i});if(scrollY<200)k=-1;L.forEach((a,i)=>a.classList.toggle('act',i==k));if(k!=pk&&k>=0){const a=L[k];a.parentNode.scrollTo({left:a.offsetLeft-innerWidth/2+a.offsetWidth/2,behavior:'smooth'})}pk=k;up.style.display=scrollY>700?'block':'none'}
+addEventListener('scroll',f,{passive:true});f()})();
+/* reveal */
+(()=>{const ss=[...document.querySelectorAll('section')];if(!('IntersectionObserver' in window)){ss.forEach(s=>s.classList.add('in'));return;}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.08});ss.forEach(s=>io.observe(s));})();
+</script></body></html>
